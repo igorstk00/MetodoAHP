@@ -9,8 +9,8 @@ public class Metodo {
 	
     int grauImportancia[];
     double mat [][];
+    double matPrimaria [][];
     double vetNormal [] = {0,0,0};
-    
     int tam;
 
     public Metodo() {
@@ -25,6 +25,7 @@ public class Metodo {
     public void defineCriterios(ArrayList crit) {
 
         mat = new double[crit.size()][crit.size()];
+        matPrimaria = new double[crit.size()][crit.size()];
         tam = crit.size();
         
         Scanner sc = new Scanner(System.in);
@@ -38,13 +39,20 @@ public class Metodo {
                     if(Num > 0){
                         mat[i][j] = Double.parseDouble(String.format("%.4f",Num).replaceAll(",", "."));
                         mat[j][i] = Double.parseDouble(String.format("%.4f",(1/Num)).replaceAll(",", "."));
+                        matPrimaria[i][j] = mat[i][j];
+                        matPrimaria[j][i] = mat[j][i];
+                        
                     }else{
                         mat[i][j] = Double.parseDouble(String.format("%.4f",Math.abs(1/Num)).replaceAll(",", "."));
                         mat[j][i] = Double.parseDouble(String.format("%.4f",Math.abs(Num)).replaceAll(",", "."));
+                        matPrimaria[i][j] = mat[i][j];
+                        matPrimaria[j][i] = mat[j][i];
+                    
                     }
 
                 }else{
                     mat[i][j] = 1;
+                    matPrimaria[i][j] = 1;
                 } 
             }
         }
@@ -58,9 +66,20 @@ public class Metodo {
             System.out.print(" |\n");
         }
         
-        for(int i=0; i<tam; i++){
-            System.out.println("Vetor normalizado: "+vetNormal[i]);
+        for(int i=0; i<tam; i++) {
+            for(int j=0; j<tam;j++) {
+                System.out.printf(" | %.2f",matPrimaria[i][j]);
+            }
+            System.out.print(" |\n");
         }
+        
+        for(int i=0; i<tam; i++){
+            System.out.println("\nVetor normalizado: "+vetNormal[i]);
+        }
+        
+        System.out.println("\nCI = "+Analise.defineCI(matPrimaria, vetNormal, tam));
+        
+        Analise.deficeCR(Analise.defineCI(matPrimaria, vetNormal, tam), tam);
     }    
         
     public void geraVetorNormal(){
