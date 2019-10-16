@@ -59,12 +59,7 @@ public class Metodo {
     }
 
     public void printMatriz(){
-        for(int i=0; i<tam; i++) {
-            for(int j=0; j<tam;j++) {
-                System.out.printf(" | %.2f",mat[i][j]);
-            }
-            System.out.print(" |\n");
-        }
+        
         
         for(int i=0; i<tam; i++) {
             for(int j=0; j<tam;j++) {
@@ -73,13 +68,16 @@ public class Metodo {
             System.out.print(" |\n");
         }
         
+        System.out.print("\nVetor normalizado: ");
         for(int i=0; i<tam; i++){
-            System.out.println("\nVetor normalizado: "+vetNormal[i]);
+            System.out.print(vetNormal[i]+" | ");
         }
+        System.out.println("\n");
         
-        System.out.println("\nCI = "+Analise.defineCI(matPrimaria, vetNormal, tam));
+        double CI = Analise.defineCI(matPrimaria, vetNormal, tam);
+        System.out.println("\nCI = "+CI);
         
-        Analise.deficeCR(Analise.defineCI(matPrimaria, vetNormal, tam), tam);
+        Analise.deficeCR(CI, tam);
     }    
         
     public void geraVetorNormal(){
@@ -109,7 +107,7 @@ public class Metodo {
                 }
                 System.out.print(" |\n");
             }
-            System.out.println("\n");
+            System.out.println();
             
             for(int l=0;l<tam;l++){
                 for(int c=0;c<tam;c++){
